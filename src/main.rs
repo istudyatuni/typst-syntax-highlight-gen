@@ -95,7 +95,7 @@ fn main() -> Result<()> {
             used_extends.insert(scope_base_name.clone());
             comment += "\n  # [extended]"
         }
-        let res = fill_template(&exts, &scope, extend, &comment);
+        let res = fill_template(&scope, &exts, &scope, extend, &comment);
         println!("{res}");
 
         added_scopes.insert(scope);
@@ -115,6 +115,7 @@ fn main() -> Result<()> {
 }
 
 fn fill_template(
+    name: &str,
     exts: &[String],
     scope: &str,
     extend: Option<&ExtendMatch>,
@@ -138,7 +139,7 @@ fn fill_template(
 
     TEMPLATE
         .trim_end()
-        .replace("$NAME", scope)
+        .replace("$NAME", name)
         .replace("$SCOPE", scope)
         .replace("$FULL_SCOPE", full_scope)
         .replace("$MATCH", &escape_regex(&matches))

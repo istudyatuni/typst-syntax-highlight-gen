@@ -7,6 +7,10 @@ use typst_library::text::RawElem;
 const HEADER: &str = r#"
 %YAML 1.2
 ---
+scope: text.typst
+version: 2
+hidden: true
+
 contexts:
 "#;
 const MAIN_CONTEXT: &str = r#"

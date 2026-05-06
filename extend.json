@@ -25,5 +25,9 @@
 	},
 	"js": {
 		"matches": ["javascript"]
+	},
+	"ml": {
+		"matches": ["ocaml"],
+		"scope": "source.ocaml"
 	}
 }

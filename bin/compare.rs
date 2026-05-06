@@ -19,8 +19,8 @@ fn main() -> Result<()> {
     diff_common_keys(&orig.contexts, &generated.contexts);
     println!("keys, missing in generated:");
     diff_missing(&orig.contexts, &generated.contexts);
-    println!("keys, missing in orig:");
-    diff_missing(&generated.contexts, &orig.contexts);
+    // println!("keys, missing in orig:");
+    // diff_missing(&generated.contexts, &orig.contexts);
 
     Ok(())
 }
@@ -48,13 +48,12 @@ struct Match {
 }
 
 fn rename_map_keys<V>(map: HashMap<String, V>) -> HashMap<String, V> {
-    map.into_iter()
-        .map(|(k, v)| (rename(&k).to_string(), v))
-        .collect()
+    map.into_iter().map(|(k, v)| (rename(&k), v)).collect()
 }
 
-fn rename(s: &str) -> &str {
-    match s {
+fn rename(s: &str) -> String {
+    let s = s.trim_start_matches("fenced-");
+    let res = match s {
         "as" => "actionscript",
         "bat" => "dosbatch",
         "clj" => "clojure",
@@ -65,31 +64,50 @@ fn rename(s: &str) -> &str {
         "hs" => "haskell",
         "js" => "javascript",
         "make" => "makefile",
+        "ml" => "ocaml",
         "py" => "python",
+        "rb" => "ruby",
         "tex" => "latex",
         _ => s,
-    }
+    };
+    format!("fenced-{res}")
 }
 
 fn diff_common_keys(a: &Matches, b: &Matches) {
     println!("diff keys:");
     for (ak, av) in a {
         if let Some(bv) = b.get(ak) {
-            if av.len() != b.len() {
-                println!("  {ak}: different number of matches");
+            if av.len() != bv.len() {
+                println!(
+                    "  {ak}: different number of matches {} != {}",
+                    av.len(),
+                    bv.len()
+                );
             } else if av.len() != 1 {
                 println!("  {ak}: number of matches is not 1: {}", av.len());
             } else {
-                println!("  {ak}:");
-                diff_match(&av[0], &bv[0]);
+                diff_match(ak, &av[0], &bv[0]);
             }
         }
     }
 }
 
-fn diff_match(a: &Match, b: &Match) {
+fn diff_match(key: &str, a: &Match, b: &Match) {
+	let mut header_shown = false;
+	let mut header = || {
+		if !header_shown {
+			println!("  {key}:");
+		}
+		header_shown = true;
+	};
+
     if a.matches != b.matches {
-        println!("    {}", diff(&a.matches, &b.matches));
+    	header();
+        fn trim(s: &str) -> &str {
+            s.trim_start_matches("(`{3,})((?i:")
+                .trim_end_matches(r#"))($\n?|\b)"#)
+        };
+        println!("    {}", diff(trim(&a.matches), trim(&b.matches)));
     }
 }
 

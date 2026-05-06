@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
 use anyhow::Result;
 use serde::Deserialize;
@@ -28,11 +28,14 @@ const SKIP_SYNTAX: &[&str] = &["txt"];
 
 fn main() -> Result<()> {
     let extends = std::fs::read_to_string("extend.json")?;
+    let extends: HashMap<String, ExtendMatch> = serde_json::from_str(&extends)?;
 
     println!("{}", HEADER.trim());
 
     let mut is_native = 0;
     let mut added_scopes = HashSet::new();
+    // todo: check unused
+    let mut used_extends = HashSet::new();
     for (name, exts) in RawElem::languages() {
         if exts.is_empty() {
             continue;
@@ -65,7 +68,11 @@ fn main() -> Result<()> {
             .collect();
         exts.sort_unstable();
 
-        let res = fill_template(&exts, &scope, &comment);
+        let extend = extends.get(&scope);
+        if extend.is_some() {
+            used_extends.insert(scope.clone());
+        }
+        let res = fill_template(&exts, &scope, extend, &comment);
         println!("{res}");
 
         added_scopes.insert(scope);
@@ -82,18 +89,32 @@ fn main() -> Result<()> {
     Ok(())
 }
 
-fn fill_template(exts: &[String], scope: &str, comment: &str) -> String {
-    // todo: also use custom scopes
-    let full_scope = format!("scope.{scope}");
+fn fill_template(
+    exts: &[String],
+    scope: &str,
+    extend: Option<&ExtendMatch>,
+    comment: &str,
+) -> String {
+    let full_scope = if let Some(extend) = extend
+        && let Some(scope) = &extend.scope
+    {
+        scope
+    } else {
+        &format!("scope.{scope}")
+    };
+
+    let extend_matches: &[String] = extend.map(|e| e.matches.as_ref()).unwrap_or_default();
     let matches = exts
         .iter()
+        .chain(extend_matches.iter())
         .map(|e| ext_to_tag(e))
         .collect::<Vec<_>>()
         .join("|");
+
     TEMPLATE
         .trim_end()
         .replace("$SCOPE", scope)
-        .replace("$FULL_SCOPE", &full_scope)
+        .replace("$FULL_SCOPE", full_scope)
         .replace("$MATCH", &escape_regex(&matches))
         .replace("$COMMENT", comment)
 }

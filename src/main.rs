@@ -60,6 +60,9 @@ fn main() -> Result<()> {
             .map(ext_to_tag)
             .filter(|e| !is_wrong_ext(e))
             .collect();
+        // todo: do not use converted name if there's the same extension
+        // already in use, e.g. tex in latex. note that typst itself has the
+        // same problem
         if let Some(converted) = name_to_match_pat(name) {
             exts.insert(0, converted);
         }

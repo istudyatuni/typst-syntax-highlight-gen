@@ -80,12 +80,12 @@ fn main() -> Result<()> {
     }
     assert_eq!(is_native, 3);
 
-    println!("  main:");
+    /*println!("  main:");
     let mut added_scopes: Vec<_> = added_scopes.iter().collect();
     added_scopes.sort_unstable();
     for scope in added_scopes {
         println!("    - include: fenced-{scope}");
-    }
+    }*/
 
     Ok(())
 }
@@ -145,5 +145,5 @@ struct ExtendMatch {
     #[serde(default)]
     matches: Vec<String>,
     scope: Option<String>,
-    rename: Option<String>,
+    // rename: Option<String>,
 }

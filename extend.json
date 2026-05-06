@@ -29,5 +29,8 @@
 	"ml": {
 		"matches": ["ocaml"],
 		"scope": "source.ocaml"
+	},
+	"re": {
+		"scope": "source.regexp"
 	}
 }

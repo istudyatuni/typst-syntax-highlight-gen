@@ -63,11 +63,18 @@ fn rename(s: &str) -> String {
         "go" => "golang",
         "hs" => "haskell",
         "js" => "javascript",
+        "json" => "jsonc",
+        "jsp" => "jspx",
         "make" => "makefile",
         "ml" => "ocaml",
+        "pl" => "perl",
         "py" => "python",
         "rb" => "ruby",
+        "re" => "regexp",
+        "rs" => "rust",
+        "sh" => "shell-script",
         "tex" => "latex",
+        "ts" => "typescript",
         _ => s,
     };
     format!("fenced-{res}")
@@ -93,16 +100,16 @@ fn diff_common_keys(a: &Matches, b: &Matches) {
 }
 
 fn diff_match(key: &str, a: &Match, b: &Match) {
-	let mut header_shown = false;
-	let mut header = || {
-		if !header_shown {
-			println!("  {key}:");
-		}
-		header_shown = true;
-	};
+    let mut header_shown = false;
+    let mut header = || {
+        if !header_shown {
+            println!("  {key}:");
+        }
+        header_shown = true;
+    };
 
     if a.matches != b.matches {
-    	header();
+        header();
         fn trim(s: &str) -> &str {
             s.trim_start_matches("(`{3,})((?i:")
                 .trim_end_matches(r#"))($\n?|\b)"#)
@@ -113,13 +120,13 @@ fn diff_match(key: &str, a: &Match, b: &Match) {
 
 /// Print keys missing in `search` compared to `source`
 fn diff_missing(source: &Matches, search: &Matches) {
-    for (k, v) in source {
-        if search.get(k).is_none() {
-            println!("  {k}");
-        }
+    let mut missing: Vec<_> = source.keys().filter(|&k| !search.contains_key(k)).collect();
+    missing.sort_unstable();
+    for k in missing {
+        println!("  {k}");
     }
 }
 
 fn diff(a: &str, b: &str) -> String {
-    similar_asserts::SimpleDiff::from_str(a, b, "left", "right").to_string()
+    similar_asserts::SimpleDiff::from_str(a, b, "orig", "gen").to_string()
 }

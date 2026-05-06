@@ -66,7 +66,17 @@ fn main() -> Result<()> {
             eprintln!("skipping ignored {comment}");
             continue;
         }
-        if added_scopes.contains(&scope_base_name) {
+        let extend = extends.get(&scope_base_name);
+
+        let scope = if let Some(extend) = extend
+            && let Some(rename) = &extend.rename
+        {
+            rename.to_owned()
+        } else {
+            scope_base_name.to_owned()
+        };
+
+        if added_scopes.contains(&scope) {
             eprintln!("skipping already added {comment}");
             continue;
         }
@@ -79,18 +89,10 @@ fn main() -> Result<()> {
             .collect();
         exts.sort_unstable();
 
-        let extend = extends.get(&scope_base_name);
         if extend.is_some() {
             used_extends.insert(scope_base_name.clone());
             comment += "\n  # [extended]"
         }
-        let scope = if let Some(extend) = extend
-            && let Some(rename) = &extend.rename
-        {
-            rename.to_owned()
-        } else {
-            scope_base_name.to_owned()
-        };
         let res = fill_template(&exts, &scope, extend, &comment);
         println!("{res}");
 

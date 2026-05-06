@@ -26,11 +26,38 @@
 	"js": {
 		"matches": ["javascript"]
 	},
+	"jsp": {
+		"scope": "text.html.jsp"
+	},
+	"make": {
+		"scope": "source.makefile"
+	},
 	"ml": {
 		"matches": ["ocaml"],
 		"scope": "source.ocaml"
 	},
+	"pl": {
+		"scope": "source.perl"
+	},
+	"py": {
+		"scope": "source.python"
+	},
+	"rb": {
+		"scope": "source.ruby"
+	},
 	"re": {
 		"scope": "source.regexp"
+	},
+	"rs": {
+		"scope": "source.rust"
+	},
+	"sh": {
+		"scope": "source.shell.bash"
+	},
+	"tex": {
+		"scope": "text.tex.latex"
+	},
+	"xml": {
+		"scope": "text.xml"
 	}
 }

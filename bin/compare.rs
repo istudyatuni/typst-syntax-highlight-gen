@@ -42,7 +42,6 @@ struct Syntax {
 struct Match {
     #[serde(rename = "match")]
     matches: String,
-    captures: HashMap<u32, String>,
     embed: String,
     embed_scope: String,
 }
@@ -118,6 +117,17 @@ fn diff_match(key: &str, a: &Match, b: &Match) {
                 .trim_end_matches(r#"))($\n?|\b)"#)
         };
         println!("    {}", diff(trim(&a.matches), trim(&b.matches)));
+    }
+    if a.embed != b.embed {
+        header();
+        fn trim(s: &str) -> &str {
+            s.trim_start_matches("scope:")
+        };
+        println!("    {}", diff(trim(&a.embed), trim(&b.embed)));
+    }
+    if a.embed_scope != b.embed_scope {
+        header();
+        println!("    {}", diff(&a.embed_scope, &b.embed_scope));
     }
 }
 

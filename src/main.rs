@@ -9,6 +9,10 @@ const HEADER: &str = r#"
 ---
 contexts:
 "#;
+const MAIN_CONTEXT: &str = r#"
+  main:
+    - include: fenced-syntaxes-gen
+"#;
 
 const TEMPLATE: &str = r#"
   # $COMMENT
@@ -41,6 +45,9 @@ fn main() -> Result<()> {
     }
 
     println!("{}", HEADER.trim());
+    if !skip_main {
+        println!("{}", MAIN_CONTEXT.trim_end());
+    }
 
     let mut is_native = 0;
     let mut added_scopes = HashSet::new();
@@ -106,7 +113,7 @@ fn main() -> Result<()> {
     assert_eq!(is_native, 3);
 
     if !skip_main {
-        println!("  main:");
+        println!("  fenced-syntaxes-gen:");
         let mut added_scopes: Vec<_> = added_scopes.iter().collect();
         added_scopes.sort_unstable();
         for scope in added_scopes {

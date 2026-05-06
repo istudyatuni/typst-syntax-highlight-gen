@@ -1,13 +1,13 @@
 #![expect(unused)]
 
+use std::collections::HashSet;
+
 use typst_library::text::RawElem;
 
 const HEADER: &str = r#"
 %YAML 1.2
 ---
 contexts:
-  main:
-    - include: markups
 "#;
 
 const TEMPLATE: &str = r#"
@@ -22,6 +22,10 @@ const TEMPLATE: &str = r#"
       escape: '(?:^[ \t]*)?(\1)\s*'
       escape_captures:
         1: punctuation.definition.raw.code-fence.end.typst
+"#;
+
+const FOOTER: &str = r#"
+  main:
 "#;
 
 fn main() {
@@ -40,6 +44,9 @@ fn main() {
         let exts: Vec<_> = exts
             .into_iter()
             .map(ext_to_tag)
+            // deduplicate
+            .collect::<HashSet<_>>()
+            .into_iter()
             .collect();
         let res = fill_template(name, &exts, &comment);
         println!("{res}");
@@ -72,5 +79,9 @@ fn escape_regex(s: &str) -> String {
 }
 
 fn ext_to_tag(ext: &str) -> String {
-    ext.trim_start_matches(".").to_string()
+    let ext = ext.trim_start_matches(".");
+    if let Some((first, _)) = ext.split_once(".") {
+        return first.to_string();
+    }
+    ext.to_string()
 }

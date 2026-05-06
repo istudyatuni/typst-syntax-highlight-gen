@@ -124,8 +124,11 @@ fn diff_match(key: &str, orig: &Match, generated: &Match) {
             header();
             println!(
                 "    matches {}",
-                diff(&orig.join(","), &generated.join(","))
+                diff(&orig.join(","), &generated.join(",")).trim()
             );
+            if !common.is_empty() {
+                println!("    {} not changed\n", common.len());
+            }
         }
     }
     if orig.embed != generated.embed {

@@ -1,14 +1,16 @@
 {
   "as": {
     "matches": [ "actionscript" ],
-    "scope": "source.actionscript.2"
+    "scope": "source.actionscript.2",
+    "rename": "actionscript"
   },
-  "bat": { "scope": "source.dosbatch" },
+  "bat": { "rename": "dosbatch" },
   "clj": {
     "matches": [ "clojure" ],
     "rename": "clojure"
   },
   "cpp": { "scope": "source.c++" },
+  "cs": { "scope": "source.cs", "rename": "csharp" },
   "erl": {
     "matches": [ "erlang" ],
     "rename": "erlang"

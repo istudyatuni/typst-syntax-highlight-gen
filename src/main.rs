@@ -12,7 +12,7 @@ contexts:
 
 const TEMPLATE: &str = r#"
   # $COMMENT
-  fenced-$SCOPE:
+  fenced-$NAME:
     - match: (`{3,})((?i:$MATCH))($\n?|\b)
       captures:
         1: punctuation.definition.raw.code-fence.begin.typst
@@ -129,6 +129,7 @@ fn fill_template(
 
     TEMPLATE
         .trim_end()
+        .replace("$NAME", scope)
         .replace("$SCOPE", scope)
         .replace("$FULL_SCOPE", full_scope)
         .replace("$MATCH", &escape_regex(&matches))
@@ -158,9 +159,10 @@ fn is_wrong_ext(ext: &str) -> bool {
 #[derive(Debug, Default, Serialize, Deserialize)]
 #[serde(default)]
 struct ExtendMatch {
+    /// Extra match strings
     #[serde(skip_serializing_if = "Vec::is_empty")]
     matches: Vec<String>,
-    /// Override embed scope
+    /// Override which scope to embed
     #[serde(skip_serializing_if = "Option::is_none")]
     scope: Option<String>,
     /// Rename rule and default scope

@@ -1,5 +1,3 @@
-#![expect(unused)]
-
 use std::collections::HashSet;
 
 use typst_library::text::RawElem;
@@ -59,7 +57,7 @@ fn main() {
             .collect();
         exts.sort_unstable();
 
-        let res = fill_template(name, &exts, &scope, &comment);
+        let res = fill_template(&exts, &scope, &comment);
         println!("{res}");
 
         added_scopes.insert(scope);
@@ -74,7 +72,7 @@ fn main() {
     }
 }
 
-fn fill_template(name: &str, exts: &[String], scope: &str, comment: &str) -> String {
+fn fill_template(exts: &[String], scope: &str, comment: &str) -> String {
     // todo: also use custom scopes
     let full_scope = format!("scope.{scope}");
     let matches = exts

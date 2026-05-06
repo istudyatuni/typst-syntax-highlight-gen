@@ -32,6 +32,7 @@ fn main() {
     println!("{}", HEADER.trim());
 
     let mut is_native = 0;
+    let mut added_scopes = HashSet::new();
     for (name, exts) in RawElem::languages() {
         if exts.is_empty() {
             continue;
@@ -41,21 +42,29 @@ fn main() {
             continue;
         }
         let comment = format!("{name}: {}", exts.join(", "));
+        let exts: Vec<_> = exts.into_iter().map(ext_to_tag).collect();
+        let scope = ext_to_tag(&exts[0]);
+        if added_scopes.contains(&scope) {
+            eprintln!("skipping already added {comment}");
+            continue;
+        }
+
         let exts: Vec<_> = exts
             .into_iter()
-            .map(ext_to_tag)
             // deduplicate
             .collect::<HashSet<_>>()
             .into_iter()
             .collect();
-        let res = fill_template(name, &exts, &comment);
+
+        let res = fill_template(name, &exts, &scope, &comment);
         println!("{res}");
+
+        added_scopes.insert(scope);
     }
     assert_eq!(is_native, 3);
 }
 
-fn fill_template(name: &str, exts: &[String], comment: &str) -> String {
-    let scope = ext_to_tag(&exts[0]);
+fn fill_template(name: &str, exts: &[String], scope: &str, comment: &str) -> String {
     // todo: also use custom scopes
     let full_scope = format!("scope.{scope}");
     let matches = exts
@@ -64,7 +73,8 @@ fn fill_template(name: &str, exts: &[String], comment: &str) -> String {
         .collect::<Vec<_>>()
         .join("|");
     TEMPLATE
-        .replace("$SCOPE", &scope)
+        .trim_end()
+        .replace("$SCOPE", scope)
         .replace("$FULL_SCOPE", &full_scope)
         .replace("$MATCH", &escape_regex(&matches))
         .replace("$COMMENT", comment)

@@ -24,6 +24,8 @@ const TEMPLATE: &str = r#"
         1: punctuation.definition.raw.code-fence.end.typst
 "#;
 
+const SKIP_SYNTAX: &[&str] = &["txt"];
+
 fn main() {
     println!("{}", HEADER.trim());
 
@@ -40,6 +42,10 @@ fn main() {
         let comment = format!("{name}: {}", exts.join(", "));
         let exts: Vec<_> = exts.into_iter().map(ext_to_tag).collect();
         let scope = ext_to_tag(&exts[0]);
+        if SKIP_SYNTAX.contains(&scope.as_str()) {
+            eprintln!("skipping ignored {comment}");
+            continue;
+        }
         if added_scopes.contains(&scope) {
             eprintln!("skipping already added {comment}");
             continue;

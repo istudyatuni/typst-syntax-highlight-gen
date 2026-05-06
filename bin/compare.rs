@@ -145,7 +145,10 @@ fn diff_match(key: &str, orig: &Match, generated: &Match, ignore: Option<&Ignore
             header();
             println!("    matches {}", diff(&orig, &generated).trim());
             if !common.is_empty() {
-                println!("    {} not changed\n", common.len());
+                println!(
+                    "    same patterns: {}\n",
+                    common.into_iter().collect::<Vec<_>>().join(",")
+                );
             }
         }
     }

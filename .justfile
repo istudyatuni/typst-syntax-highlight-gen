@@ -3,9 +3,9 @@
 	just list --unsorted
 
 # build syntax
-build:
-	cargo r --bin=gen > typst-fenced.sublime-syntax
+build *args:
+	cargo r --bin=gen -- {{ args }} > typst-fenced.sublime-syntax
 
-# build generated and original syntax
-compare orig:
+# compare generated and original syntax
+compare orig: (build "--skip-main")
 	cargo r --bin=compare -- typst-fenced.sublime-syntax '{{ orig }}'

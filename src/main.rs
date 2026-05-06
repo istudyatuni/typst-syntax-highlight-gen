@@ -29,6 +29,8 @@ const SKIP_SYNTAX: &[&str] = &["txt"];
 const EXTEND_FILE: &str = "extend.json";
 
 fn main() -> Result<()> {
+    let skip_main = std::env::args().nth(1).is_some_and(|a| a == "--skip-main");
+
     let extends = std::fs::read_to_string(EXTEND_FILE).context("failed to read extend data")?;
     let extends: BTreeMap<String, ExtendMatch> =
         serde_json::from_str(&extends).context("failed to parse extend data")?;
@@ -100,12 +102,14 @@ fn main() -> Result<()> {
     }
     assert_eq!(is_native, 3);
 
-    /*println!("  main:");
-    let mut added_scopes: Vec<_> = added_scopes.iter().collect();
-    added_scopes.sort_unstable();
-    for scope in added_scopes {
-        println!("    - include: fenced-{scope}");
-    }*/
+    if !skip_main {
+        println!("  main:");
+        let mut added_scopes: Vec<_> = added_scopes.iter().collect();
+        added_scopes.sort_unstable();
+        for scope in added_scopes {
+            println!("    - include: fenced-{scope}");
+        }
+    }
 
     Ok(())
 }

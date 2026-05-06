@@ -55,24 +55,13 @@ fn rename(s: &str) -> String {
     let res = match s {
         "as" => "actionscript",
         "bat" => "dosbatch",
-        "clj" => "clojure",
         "cs" => "csharp",
         "dot" => "graphviz",
         "erl" => "erlang",
         "go" => "golang",
-        "hs" => "haskell",
-        "js" => "javascript",
         "json" => "jsonc",
         "jsp" => "jspx",
-        "make" => "makefile",
-        "ml" => "ocaml",
-        "pl" => "perl",
-        "py" => "python",
-        "rb" => "ruby",
-        "re" => "regexp",
-        "rs" => "rust",
         "sh" => "shell-script",
-        "tex" => "latex",
         "ts" => "typescript",
         _ => s,
     };
@@ -105,7 +94,7 @@ fn diff_match(key: &str, orig: &Match, generated: &Match) {
     let mut header_shown = false;
     let mut header = || {
         if !header_shown {
-            println!("  {key}:");
+            println!("  ------- {key} -------");
         }
         header_shown = true;
     };
@@ -117,7 +106,7 @@ fn diff_match(key: &str, orig: &Match, generated: &Match) {
                 .trim_end_matches(r#"))($\n?|\b)"#)
         };
         println!(
-            "    {}",
+            "    matches {}",
             diff(trim(&orig.matches), trim(&generated.matches))
         );
     }
@@ -126,11 +115,17 @@ fn diff_match(key: &str, orig: &Match, generated: &Match) {
         fn trim(s: &str) -> &str {
             s.trim_start_matches("scope:")
         };
-        println!("    {}", diff(trim(&orig.embed), trim(&generated.embed)));
+        println!(
+            "    embed {}",
+            diff(trim(&orig.embed), trim(&generated.embed))
+        );
     }
     if orig.embed_scope != generated.embed_scope {
         header();
-        println!("    {}", diff(&orig.embed_scope, &generated.embed_scope));
+        println!(
+            "    embed_scope {}",
+            diff(&orig.embed_scope, &generated.embed_scope)
+        );
     }
 }
 

@@ -73,6 +73,13 @@ fn main() -> Result<()> {
             used_extends.insert(scope.clone());
             comment += "\n  # [extended]"
         }
+        let scope = if let Some(extend) = extend
+            && let Some(rename) = &extend.rename
+        {
+            rename.to_owned()
+        } else {
+            scope.to_owned()
+        };
         let res = fill_template(&exts, &scope, extend, &comment);
         println!("{res}");
 
@@ -144,6 +151,8 @@ fn is_wrong_ext(ext: &str) -> bool {
 struct ExtendMatch {
     #[serde(default)]
     matches: Vec<String>,
+    /// Override embed scope
     scope: Option<String>,
-    // rename: Option<String>,
+    /// Rename rule and default scope
+    rename: Option<String>,
 }

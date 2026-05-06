@@ -8,7 +8,7 @@
 	},
 	"clj": {
 		"matches": ["clojure"],
-		"scope": "source.clojure"
+		"rename": "clojure"
 	},
 	"cpp": {
 		"scope": "source.c++"
@@ -18,43 +18,47 @@
 	},
 	"hs": {
 		"matches": ["haskell"],
-		"scope": "source.haskell"
+		"rename": "haskell"
 	},
 	"html": {
 		"scope": "text.html.basic"
 	},
 	"js": {
-		"matches": ["javascript"]
+		"matches": ["javascript"],
+		"rename": "javascript",
+		"scope": "source.js"
 	},
 	"jsp": {
 		"scope": "text.html.jsp"
 	},
 	"make": {
-		"scope": "source.makefile"
+		"rename": "makefile"
 	},
 	"ml": {
 		"matches": ["ocaml"],
-		"scope": "source.ocaml"
+		"rename": "ocaml"
 	},
 	"pl": {
-		"scope": "source.perl"
+		"rename": "perl"
 	},
 	"py": {
-		"scope": "source.python"
+		"rename": "python"
 	},
 	"rb": {
-		"scope": "source.ruby"
+		"rename": "ruby"
 	},
 	"re": {
-		"scope": "source.regexp"
+		"rename": "regexp"
 	},
 	"rs": {
-		"scope": "source.rust"
+		"matches": ["rust"],
+		"rename": "rust"
 	},
 	"sh": {
 		"scope": "source.shell.bash"
 	},
 	"tex": {
+		"rename": "latex",
 		"scope": "text.tex.latex"
 	},
 	"xml": {

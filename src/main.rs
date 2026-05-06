@@ -53,11 +53,14 @@ fn main() -> Result<()> {
             continue;
         }
         let mut comment = format!("{name}: {}", exts.join(", "));
-        let exts: Vec<_> = exts
+        let mut exts: Vec<_> = exts
             .into_iter()
             .map(ext_to_tag)
             .filter(|e| !is_wrong_ext(e))
             .collect();
+        if let Some(converted) = name_to_match_pat(name) {
+            exts.insert(0, converted);
+        }
         let scope = ext_to_tag(&exts[0]);
         if SKIP_SYNTAX.contains(&scope.as_str()) {
             eprintln!("skipping ignored {comment}");
@@ -150,6 +153,17 @@ fn ext_to_tag(ext: &str) -> String {
         return first.to_string();
     }
     ext.to_string()
+}
+
+fn name_to_match_pat(name: &str) -> Option<String> {
+    fn is_valid_in_ident(c: char) -> bool {
+        c.is_ascii_alphabetic() || matches!(c, '-')
+    }
+    if name.chars().all(is_valid_in_ident) {
+        Some(name.to_ascii_lowercase())
+    } else {
+        None
+    }
 }
 
 fn is_wrong_ext(ext: &str) -> bool {

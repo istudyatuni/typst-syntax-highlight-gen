@@ -1,9 +1,5 @@
 {
-  "as": {
-    "matches": [ "actionscript" ],
-    "scope": "source.actionscript.2",
-    "rename": "actionscript"
-  },
+  "actionscript": { "scope": "source.actionscript.2" },
   "bat": { "rename": "dosbatch" },
   "clj": {
     "matches": [ "clojure" ],
@@ -45,5 +41,6 @@
     "scope": "text.tex.latex",
     "rename": "latex"
   },
+  "typescript": { "scope": "source.ts" },
   "xml": { "scope": "text.xml" }
 }

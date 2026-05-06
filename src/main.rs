@@ -166,8 +166,9 @@ fn name_to_match_pat(name: &str) -> Option<String> {
     fn is_valid_in_ident(c: char) -> bool {
         c.is_ascii_alphabetic() || matches!(c, '-')
     }
+    let name = name.to_lowercase();
     if name.chars().all(is_valid_in_ident) {
-        Some(name.to_ascii_lowercase())
+        Some(name)
     } else {
         None
     }

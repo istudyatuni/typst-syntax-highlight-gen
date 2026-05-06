@@ -32,5 +32,61 @@
 			"del": "graphviz",
 			"add": "DOT,dot,gv"
 		}
+	},
+	"jsonc": {
+		"matches": {
+			"del": "jsonc?",
+			"add": "Pipfile,ipynb,json,sublime-build,sublime-color-scheme,sublime-commands,sublime-completions,sublime-keymap,sublime-macro,sublime-menu,sublime-mousemap,sublime-project,sublime-settings,sublime-theme"
+		},
+		"embed_scope": {
+			"del": "markup.raw.block.jsonc.typst source.json",
+			"add": "markup.raw.block.json.typst source.json"
+		}
+	},
+	"jspx": {
+		"matches": {
+			"del": "jspx?",
+			"add": "jsp"
+		},
+		"embed_scope": {
+			"del": "markup.raw.block.jspx.typst text.html.jsp",
+			"add": "markup.raw.block.jsp.typst text.html.jsp"
+		}
+	},
+	"objc": {
+		"matches": {
+			"del": "obj-c,objc,objectivec",
+			"add": "h,m"
+		}
+	},
+	"objcpp": {
+		"matches": {
+			"del": "obj-c\\+\\+,objc\\+\\+,objective-c\\+\\+,objectivec\\+\\+",
+			"add": "M,h,mm"
+		}
+	},
+	"php": {
+		"matches": {
+			"del": "inc",
+			"add": "php3,php4,php5,php7,phps,phpt,phtml"
+		}
+	},
+	"regexp": {
+		"matches": {
+			"del": "regexp?",
+			"add": "re"
+		}
+	},
+	"shell-script": {
+		"matches": {
+			"del": "shell-script",
+			"add": "PKGBUILD,ash,bash_aliases,bash_completions,bash_functions,bash_login,bash_logout,bash_profile,bash_variables,bashrc,ebuild,eclass,profile,textmate_init,zlogin,zlogout,zprofile,zshenv,zshrc"
+		}
+	},
+	"xml": {
+		"matches": {
+			"del": "atom,plist,xjb,xsl",
+			"add": "dtml,opml,rng,rss,tld,xaml,xslt"
+		}
 	}
 }

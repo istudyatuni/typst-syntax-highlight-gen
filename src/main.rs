@@ -51,12 +51,13 @@ fn main() {
             continue;
         }
 
-        let exts: Vec<_> = exts
+        let mut exts: Vec<_> = exts
             .into_iter()
             // deduplicate
             .collect::<HashSet<_>>()
             .into_iter()
             .collect();
+        exts.sort_unstable();
 
         let res = fill_template(name, &exts, &scope, &comment);
         println!("{res}");

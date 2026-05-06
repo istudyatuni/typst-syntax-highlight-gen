@@ -1,6 +1,6 @@
 [private]
 @default:
-	just list --unsorted
+	just --list --unsorted
 
 # build syntax
 build *args:

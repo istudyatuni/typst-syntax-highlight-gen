@@ -61,12 +61,12 @@ fn main() -> Result<()> {
         if let Some(converted) = name_to_match_pat(name) {
             exts.insert(0, converted);
         }
-        let scope = ext_to_tag(&exts[0]);
-        if SKIP_SYNTAX.contains(&scope.as_str()) {
+        let scope_base_name = ext_to_tag(&exts[0]);
+        if SKIP_SYNTAX.contains(&scope_base_name.as_str()) {
             eprintln!("skipping ignored {comment}");
             continue;
         }
-        if added_scopes.contains(&scope) {
+        if added_scopes.contains(&scope_base_name) {
             eprintln!("skipping already added {comment}");
             continue;
         }
@@ -79,9 +79,9 @@ fn main() -> Result<()> {
             .collect();
         exts.sort_unstable();
 
-        let extend = extends.get(&scope);
+        let extend = extends.get(&scope_base_name);
         if extend.is_some() {
-            used_extends.insert(scope.clone());
+            used_extends.insert(scope_base_name.clone());
             comment += "\n  # [extended]"
         }
         let scope = if let Some(extend) = extend
@@ -89,7 +89,7 @@ fn main() -> Result<()> {
         {
             rename.to_owned()
         } else {
-            scope.to_owned()
+            scope_base_name.to_owned()
         };
         let res = fill_template(&exts, &scope, extend, &comment);
         println!("{res}");

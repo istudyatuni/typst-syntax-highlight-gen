@@ -1,67 +1,47 @@
 {
-	"as": {
-		"matches": ["actionscript"],
-		"scope": "source.actionscript.2"
-	},
-	"bat": {
-		"scope": "source.dosbatch"
-	},
-	"clj": {
-		"matches": ["clojure"],
-		"rename": "clojure"
-	},
-	"cpp": {
-		"scope": "source.c++"
-	},
-	"erl": {
-		"scope": "source.erlang"
-	},
-	"hs": {
-		"matches": ["haskell"],
-		"rename": "haskell"
-	},
-	"html": {
-		"scope": "text.html.basic"
-	},
-	"js": {
-		"matches": ["javascript"],
-		"rename": "javascript",
-		"scope": "source.js"
-	},
-	"jsp": {
-		"scope": "text.html.jsp"
-	},
-	"make": {
-		"rename": "makefile"
-	},
-	"ml": {
-		"matches": ["ocaml"],
-		"rename": "ocaml"
-	},
-	"pl": {
-		"rename": "perl"
-	},
-	"py": {
-		"rename": "python"
-	},
-	"rb": {
-		"rename": "ruby"
-	},
-	"re": {
-		"rename": "regexp"
-	},
-	"rs": {
-		"matches": ["rust"],
-		"rename": "rust"
-	},
-	"sh": {
-		"scope": "source.shell.bash"
-	},
-	"tex": {
-		"rename": "latex",
-		"scope": "text.tex.latex"
-	},
-	"xml": {
-		"scope": "text.xml"
-	}
+  "as": {
+    "matches": [ "actionscript" ],
+    "scope": "source.actionscript.2"
+  },
+  "bat": { "scope": "source.dosbatch" },
+  "clj": {
+    "matches": [ "clojure" ],
+    "rename": "clojure"
+  },
+  "cpp": { "scope": "source.c++" },
+  "erl": {
+    "matches": [ "erlang" ],
+    "rename": "erlang"
+  },
+  "hs": {
+    "matches": [ "haskell" ],
+    "rename": "haskell"
+  },
+  "html": { "scope": "text.html.basic" },
+  "js": {
+    "matches": [ "javascript" ],
+    "scope": "source.js",
+    "rename": "javascript"
+  },
+  "jsp": { "scope": "text.html.jsp" },
+  "make": { "rename": "makefile" },
+  "ml": {
+    "matches": [ "ocaml" ],
+    "rename": "ocaml"
+  },
+  "pl": { "rename": "perl" },
+  "py": { "rename": "python" },
+  "rb": { "rename": "ruby" },
+  "re": { "rename": "regexp" },
+  "rs": {
+    "matches": [ "rust" ],
+    "rename": "rust"
+  },
+  "sh": { "scope": "source.shell.bash" },
+  "tex": {
+    "matches": [ "latex" ],
+    "scope": "text.tex.latex",
+    "rename": "latex"
+  },
+  "xml": { "scope": "text.xml" }
 }

@@ -1,7 +1,7 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::{BTreeMap, HashSet};
 
-use anyhow::Result;
-use serde::Deserialize;
+use anyhow::{Context, Result};
+use serde::{Deserialize, Serialize};
 use typst_library::text::RawElem;
 
 const HEADER: &str = r#"
@@ -26,9 +26,17 @@ const TEMPLATE: &str = r#"
 
 const SKIP_SYNTAX: &[&str] = &["txt"];
 
+const EXTEND_FILE: &str = "extend.json";
+
 fn main() -> Result<()> {
-    let extends = std::fs::read_to_string("extend.json")?;
-    let extends: HashMap<String, ExtendMatch> = serde_json::from_str(&extends)?;
+    let extends = std::fs::read_to_string(EXTEND_FILE).context("failed to read extend data")?;
+    let extends: BTreeMap<String, ExtendMatch> =
+        serde_json::from_str(&extends).context("failed to parse extend data")?;
+    {
+        let res =
+            serde_json_pretty::to_string(&extends).context("failed to serialize extend data")?;
+        std::fs::write(EXTEND_FILE, res).context("failed to save extend data")?;
+    }
 
     println!("{}", HEADER.trim());
 
@@ -147,12 +155,15 @@ fn is_wrong_ext(ext: &str) -> bool {
     ext.contains(" ")
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Default, Serialize, Deserialize)]
+#[serde(default)]
 struct ExtendMatch {
-    #[serde(default)]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
     matches: Vec<String>,
     /// Override embed scope
+    #[serde(skip_serializing_if = "Option::is_none")]
     scope: Option<String>,
     /// Rename rule and default scope
+    #[serde(skip_serializing_if = "Option::is_none")]
     rename: Option<String>,
 }

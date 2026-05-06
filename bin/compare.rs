@@ -1,6 +1,9 @@
 #![expect(unused)]
 
-use std::{collections::HashMap, path::PathBuf};
+use std::{
+    collections::{HashMap, HashSet},
+    path::PathBuf,
+};
 
 use anyhow::{Context, Result, bail};
 use serde::Deserialize;
@@ -99,16 +102,31 @@ fn diff_match(key: &str, orig: &Match, generated: &Match) {
         header_shown = true;
     };
 
-    if orig.matches != generated.matches {
-        header();
-        fn trim(s: &str) -> &str {
-            s.trim_start_matches("(`{3,})((?i:")
-                .trim_end_matches(r#"))($\n?|\b)"#)
-        };
-        println!(
-            "    matches {}",
-            diff(trim(&orig.matches), trim(&generated.matches))
-        );
+    'b: {
+        if orig.matches != generated.matches {
+            fn trim(s: &str) -> &str {
+                s.trim_start_matches("(`{3,})((?i:")
+                    .trim_end_matches(r#"))($\n?|\b)"#)
+            };
+            // ignore elements present in both
+            let orig: HashSet<_> = trim(&orig.matches).split("|").collect();
+            let generated: HashSet<_> = trim(&generated.matches).split("|").collect();
+            let common: HashSet<_> = orig.intersection(&generated).copied().collect();
+            let mut orig = orig.difference(&common).copied().collect::<Vec<_>>();
+            orig.sort_unstable();
+            if orig.is_empty() {
+                break 'b;
+            }
+
+            let mut generated = generated.difference(&common).copied().collect::<Vec<_>>();
+            generated.sort_unstable();
+
+            header();
+            println!(
+                "    matches {}",
+                diff(&orig.join(","), &generated.join(","))
+            );
+        }
     }
     if orig.embed != generated.embed {
         header();

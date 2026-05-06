@@ -82,18 +82,21 @@ fn rename(s: &str) -> String {
 
 fn diff_common_keys(a: &Matches, b: &Matches) {
     println!("diff keys:");
-    for (ak, av) in a {
-        if let Some(bv) = b.get(ak) {
+    let mut keys: Vec<_> = a.keys().collect();
+    keys.sort_unstable();
+    for key in keys {
+        let av = a.get(key).unwrap();
+        if let Some(bv) = b.get(key) {
             if av.len() != bv.len() {
                 println!(
-                    "  {ak}: different number of matches {} != {}",
+                    "  {key}: different number of matches {} != {}",
                     av.len(),
                     bv.len()
                 );
             } else if av.len() != 1 {
-                println!("  {ak}: number of matches is not 1: {}", av.len());
+                println!("  {key}: number of matches is not 1: {}", av.len());
             } else {
-                diff_match(ak, &av[0], &bv[0]);
+                diff_match(key, &av[0], &bv[0]);
             }
         }
     }

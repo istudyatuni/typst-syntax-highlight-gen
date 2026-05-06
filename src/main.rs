@@ -24,10 +24,6 @@ const TEMPLATE: &str = r#"
         1: punctuation.definition.raw.code-fence.end.typst
 "#;
 
-const FOOTER: &str = r#"
-  main:
-"#;
-
 fn main() {
     println!("{}", HEADER.trim());
 
@@ -62,6 +58,13 @@ fn main() {
         added_scopes.insert(scope);
     }
     assert_eq!(is_native, 3);
+
+    println!("  main:");
+    let mut added_scopes: Vec<_> = added_scopes.iter().collect();
+    added_scopes.sort_unstable();
+    for scope in added_scopes {
+        println!("    - include: fenced-{scope}");
+    }
 }
 
 fn fill_template(name: &str, exts: &[String], scope: &str, comment: &str) -> String {

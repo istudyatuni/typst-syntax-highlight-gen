@@ -79,29 +79,29 @@ fn rename(s: &str) -> String {
     format!("fenced-{res}")
 }
 
-fn diff_common_keys(a: &Matches, b: &Matches) {
+fn diff_common_keys(orig: &Matches, generated: &Matches) {
     println!("diff keys:");
-    let mut keys: Vec<_> = a.keys().collect();
+    let mut keys: Vec<_> = orig.keys().collect();
     keys.sort_unstable();
     for key in keys {
-        let av = a.get(key).unwrap();
-        if let Some(bv) = b.get(key) {
-            if av.len() != bv.len() {
+        let orig_v = orig.get(key).unwrap();
+        if let Some(gen_v) = generated.get(key) {
+            if orig_v.len() != gen_v.len() {
                 println!(
                     "  {key}: different number of matches {} != {}",
-                    av.len(),
-                    bv.len()
+                    orig_v.len(),
+                    gen_v.len()
                 );
-            } else if av.len() != 1 {
-                println!("  {key}: number of matches is not 1: {}", av.len());
+            } else if orig_v.len() != 1 {
+                println!("  {key}: number of matches is not 1: {}", orig_v.len());
             } else {
-                diff_match(key, &av[0], &bv[0]);
+                diff_match(key, &orig_v[0], &gen_v[0]);
             }
         }
     }
 }
 
-fn diff_match(key: &str, a: &Match, b: &Match) {
+fn diff_match(key: &str, orig: &Match, generated: &Match) {
     let mut header_shown = false;
     let mut header = || {
         if !header_shown {
@@ -110,24 +110,27 @@ fn diff_match(key: &str, a: &Match, b: &Match) {
         header_shown = true;
     };
 
-    if a.matches != b.matches {
+    if orig.matches != generated.matches {
         header();
         fn trim(s: &str) -> &str {
             s.trim_start_matches("(`{3,})((?i:")
                 .trim_end_matches(r#"))($\n?|\b)"#)
         };
-        println!("    {}", diff(trim(&a.matches), trim(&b.matches)));
+        println!(
+            "    {}",
+            diff(trim(&orig.matches), trim(&generated.matches))
+        );
     }
-    if a.embed != b.embed {
+    if orig.embed != generated.embed {
         header();
         fn trim(s: &str) -> &str {
             s.trim_start_matches("scope:")
         };
-        println!("    {}", diff(trim(&a.embed), trim(&b.embed)));
+        println!("    {}", diff(trim(&orig.embed), trim(&generated.embed)));
     }
-    if a.embed_scope != b.embed_scope {
+    if orig.embed_scope != generated.embed_scope {
         header();
-        println!("    {}", diff(&a.embed_scope, &b.embed_scope));
+        println!("    {}", diff(&orig.embed_scope, &generated.embed_scope));
     }
 }
 
@@ -140,6 +143,6 @@ fn diff_missing(source: &Matches, search: &Matches) {
     }
 }
 
-fn diff(a: &str, b: &str) -> String {
-    similar_asserts::SimpleDiff::from_str(a, b, "orig", "gen").to_string()
+fn diff(orig: &str, generated: &str) -> String {
+    similar_asserts::SimpleDiff::from_str(orig, generated, "orig", "gen").to_string()
 }

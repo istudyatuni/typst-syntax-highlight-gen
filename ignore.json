@@ -1,0 +1,36 @@
+{
+	"applescript": {
+		"matches": {
+			"del": "osascript",
+			"add": ""
+		}
+	},
+	"csharp": {
+		"matches": {
+			"del": "c\\#,csharp",
+			"add": "csx"
+		}
+	},
+	"dosbatch": {
+		"matches": {
+			"del": "dos",
+			"add": ""
+		}
+	},
+	"golang": {
+		"matches": {
+			"del": "go(?:lang)?",
+			"add": "go"
+		},
+		"embed_scope": {
+			"del": "markup.raw.block.golang.typst source.go",
+			"add": "markup.raw.block.go.typst source.go"
+		}
+	},
+	"graphviz": {
+		"matches": {
+			"del": "graphviz",
+			"add": "DOT,dot,gv"
+		}
+	}
+}

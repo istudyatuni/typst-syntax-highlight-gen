@@ -1,7 +1,15 @@
 [package]
-name = "asdf"
+name = "typst-highlight-gen"
 version = "0.1.0"
 edition = "2024"
+
+[[bin]]
+name = "gen"
+path = "src/main.rs"
+
+[[bin]]
+name = "compare"
+path = "bin/compare.rs"
 
 [dependencies]
 anyhow = "1.0.102"

@@ -145,4 +145,5 @@ struct ExtendMatch {
     #[serde(default)]
     matches: Vec<String>,
     scope: Option<String>,
+    rename: Option<String>,
 }

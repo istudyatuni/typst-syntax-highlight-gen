@@ -18,7 +18,7 @@ const TEMPLATE: &str = r#"
         1: punctuation.definition.raw.code-fence.begin.typst
         2: constant.other.language-name.typst
       embed: scope:$FULL_SCOPE
-      embed_scope: markup.raw.block.$SCOPE.typst source.$SCOPE
+      embed_scope: markup.raw.block.$SCOPE.typst $FULL_SCOPE
       escape: '(?:^[ \t]*)?(\1)\s*'
       escape_captures:
         1: punctuation.definition.raw.code-fence.end.typst
@@ -44,7 +44,7 @@ fn main() -> Result<()> {
             is_native += 1;
             continue;
         }
-        let comment = format!("{name}: {}", exts.join(", "));
+        let mut comment = format!("{name}: {}", exts.join(", "));
         let exts: Vec<_> = exts
             .into_iter()
             .map(ext_to_tag)
@@ -71,6 +71,7 @@ fn main() -> Result<()> {
         let extend = extends.get(&scope);
         if extend.is_some() {
             used_extends.insert(scope.clone());
+            comment += "\n  # [extended]"
         }
         let res = fill_template(&exts, &scope, extend, &comment);
         println!("{res}");
@@ -100,7 +101,7 @@ fn fill_template(
     {
         scope
     } else {
-        &format!("scope.{scope}")
+        &format!("source.{scope}")
     };
 
     let extend_matches: &[String] = extend.map(|e| e.matches.as_ref()).unwrap_or_default();

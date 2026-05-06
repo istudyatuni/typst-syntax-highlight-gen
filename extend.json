@@ -2,5 +2,28 @@
 	"as": {
 		"matches": ["actionscript"],
 		"scope": "source.actionscript.2"
+	},
+	"bat": {
+		"scope": "source.dosbatch"
+	},
+	"clj": {
+		"matches": ["clojure"],
+		"scope": "source.clojure"
+	},
+	"cpp": {
+		"scope": "source.c++"
+	},
+	"erl": {
+		"scope": "source.erlang"
+	},
+	"hs": {
+		"matches": ["haskell"],
+		"scope": "source.haskell"
+	},
+	"html": {
+		"scope": "text.html.basic"
+	},
+	"js": {
+		"matches": ["javascript"]
 	}
 }

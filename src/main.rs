@@ -1,5 +1,7 @@
 use std::collections::HashSet;
 
+use anyhow::Result;
+use serde::Deserialize;
 use typst_library::text::RawElem;
 
 const HEADER: &str = r#"
@@ -24,7 +26,9 @@ const TEMPLATE: &str = r#"
 
 const SKIP_SYNTAX: &[&str] = &["txt"];
 
-fn main() {
+fn main() -> Result<()> {
+    let extends = std::fs::read_to_string("extend.json")?;
+
     println!("{}", HEADER.trim());
 
     let mut is_native = 0;
@@ -38,7 +42,11 @@ fn main() {
             continue;
         }
         let comment = format!("{name}: {}", exts.join(", "));
-        let exts: Vec<_> = exts.into_iter().map(ext_to_tag).collect();
+        let exts: Vec<_> = exts
+            .into_iter()
+            .map(ext_to_tag)
+            .filter(|e| !is_wrong_ext(e))
+            .collect();
         let scope = ext_to_tag(&exts[0]);
         if SKIP_SYNTAX.contains(&scope.as_str()) {
             eprintln!("skipping ignored {comment}");
@@ -70,6 +78,8 @@ fn main() {
     for scope in added_scopes {
         println!("    - include: fenced-{scope}");
     }
+
+    Ok(())
 }
 
 fn fill_template(exts: &[String], scope: &str, comment: &str) -> String {
@@ -102,4 +112,15 @@ fn ext_to_tag(ext: &str) -> String {
         return first.to_string();
     }
     ext.to_string()
+}
+
+fn is_wrong_ext(ext: &str) -> bool {
+    ext.contains(" ")
+}
+
+#[derive(Debug, Deserialize)]
+struct ExtendMatch {
+    #[serde(default)]
+    matches: Vec<String>,
+    scope: Option<String>,
 }

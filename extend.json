@@ -1,0 +1,6 @@
+{
+	"as": {
+		"matches": ["actionscript"],
+		"scope": "source.actionscript.2"
+	}
+}

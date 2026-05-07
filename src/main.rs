@@ -116,7 +116,11 @@ fn main() -> Result<()> {
 
         added_scopes.insert(scope);
     }
-    assert_eq!(is_native, 3);
+    anyhow::ensure!(
+        is_native == 3,
+        "it's expected that RawElem::languages() returns only 3 Typst-native languages, but it returns {}",
+        is_native,
+    );
 
     if !skip_main {
         println!("  fenced-syntaxes-gen:");

@@ -122,6 +122,12 @@ fn main() -> Result<()> {
         is_native,
     );
 
+    let extends: HashSet<_> = extends.keys().cloned().collect();
+    let unused_extends: Vec<_> = extends.difference(&used_extends).cloned().collect();
+    if !unused_extends.is_empty() {
+        eprintln!("unused extends: {}", unused_extends.join(", "));
+    }
+
     if !skip_main {
         println!("  fenced-syntaxes-gen:");
         let mut added_scopes: Vec<_> = added_scopes.iter().collect();

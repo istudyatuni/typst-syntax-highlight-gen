@@ -141,7 +141,7 @@ fn main() -> Result<()> {
 }
 
 fn fill_template(
-    name: &str,
+    key: &str,
     exts: &[String],
     scope: &str,
     extend: Option<&ExtendMatch>,
@@ -150,6 +150,9 @@ fn fill_template(
     let full_scope = if let Some(extend) = extend
         && let Some(scope) = &extend.scope
     {
+        if default_full_scope == scope {
+            eprintln!("{key}: unused scope {scope:?}");
+        }
         scope
     } else {
         &format!("source.{scope}")
@@ -165,7 +168,7 @@ fn fill_template(
 
     TEMPLATE
         .trim_end()
-        .replace("$NAME", name)
+        .replace("$NAME", key)
         .replace("$SCOPE", scope)
         .replace("$FULL_SCOPE", full_scope)
         .replace("$MATCH", &escape_regex(&matches))

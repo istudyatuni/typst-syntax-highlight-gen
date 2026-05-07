@@ -1,5 +1,5 @@
 {
-  "actionscript": { "scope": "source.actionscript.2" },
+  "actionscript": { "scope": "source.actionscript" },
   "bat": { "rename": "dosbatch" },
   "cpp": { "scope": "source.c++" },
   "cs": { "scope": "source.cs", "rename": "csharp" },
@@ -11,7 +11,5 @@
   "mm": { "scope": "source.objc++", "rename": "objcpp" },
   "objective-c": { "rename": "objc" },
   "re": { "rename": "regexp" },
-  "sh": { "scope": "source.shell.bash", "rename": "shell-script" },
-  "typescript": { "scope": "source.ts" },
-  "xml": { "scope": "text.xml" }
+  "sh": { "rename": "shell-script" }
 }

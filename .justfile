@@ -8,4 +8,4 @@ build *args:
 
 # compare generated and original syntax
 compare orig="Typst.sublime-syntax": (build "--skip-main")
-	cargo r --bin=compare -- typst-fenced.sublime-syntax '{{ orig }}'
+	cargo r --bin=compare --features=compare -- typst-fenced.sublime-syntax '{{ orig }}'

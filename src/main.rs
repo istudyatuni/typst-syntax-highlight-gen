@@ -1,3 +1,5 @@
+#![warn(unused_crate_dependencies)]
+
 use std::collections::{BTreeMap, HashSet};
 
 use anyhow::{Context, Result};

@@ -11,6 +11,7 @@ Required: `cargo` (Rust), `just` (optional)
 just build
 
 # compare with original
+# this script was used for migrating only
 just compare
 ```
 

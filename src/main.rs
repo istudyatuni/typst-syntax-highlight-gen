@@ -91,7 +91,7 @@ fn main() -> Result<()> {
         {
             rename.to_owned()
         } else {
-            scope_base_name.to_owned()
+            scope_base_name.clone()
         };
 
         if added_scopes.contains(&scope) {
@@ -108,7 +108,7 @@ fn main() -> Result<()> {
         exts.sort_unstable();
 
         if extend.is_some() {
-            used_extends.insert(scope_base_name.clone());
+            used_extends.insert(scope_base_name);
             comment += "\n  # [extended]"
         }
         let res = fill_template(&scope, &exts, &scope, extend, &comment);

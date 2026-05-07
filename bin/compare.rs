@@ -1,5 +1,3 @@
-#![expect(unused)]
-
 use std::{
     collections::{BTreeMap, HashMap, HashSet},
     path::PathBuf,
@@ -118,7 +116,7 @@ fn diff_match(key: &str, orig: &Match, generated: &Match, ignore: Option<&Ignore
             fn trim(s: &str) -> &str {
                 s.trim_start_matches("(`{3,})((?i:")
                     .trim_end_matches(r#"))($\n?|\b)"#)
-            };
+            }
             // ignore elements present in both
             let orig: HashSet<_> = trim(&orig.matches).split("|").collect();
             let generated: HashSet<_> = trim(&generated.matches).split("|").collect();
@@ -156,7 +154,7 @@ fn diff_match(key: &str, orig: &Match, generated: &Match, ignore: Option<&Ignore
         if orig.embed != generated.embed {
             fn trim(s: &str) -> &str {
                 s.trim_start_matches("scope:")
-            };
+            }
 
             let orig = trim(&orig.embed);
             let generated = trim(&generated.embed);

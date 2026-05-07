@@ -159,6 +159,15 @@ fn fill_template(
     };
 
     let extend_matches: &[String] = extend.map(|e| e.matches.as_ref()).unwrap_or_default();
+    // check unused matches
+    {
+        let extended: HashSet<_> = extend_matches.iter().collect();
+        let existing: HashSet<_> = exts.iter().collect();
+        let unused: Vec<_> = extended.intersection(&existing).copied().cloned().collect();
+        if !unused.is_empty() {
+            eprintln!("{key}: unused extend.matches: {}", unused.join(", "));
+        }
+    }
     let matches = exts
         .iter()
         .chain(extend_matches.iter())

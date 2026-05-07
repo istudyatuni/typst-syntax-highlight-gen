@@ -5,15 +5,9 @@
   "cs": { "scope": "source.cs", "rename": "csharp" },
   "dot": { "scope": "source.dot", "rename": "graphviz" },
   "html": { "scope": "text.html.basic" },
-  "javascript": {
-    "matches": [ "javascript" ],
-    "scope": "source.js"
-  },
+  "javascript": { "scope": "source.js" },
   "jsp": { "scope": "text.html.jsp" },
-  "latex": {
-    "matches": [ "latex" ],
-    "scope": "text.tex.latex"
-  },
+  "latex": { "scope": "text.tex.latex" },
   "mm": { "scope": "source.objc++", "rename": "objcpp" },
   "objective-c": { "rename": "objc" },
   "re": { "rename": "regexp" },

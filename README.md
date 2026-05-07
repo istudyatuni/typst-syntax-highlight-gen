@@ -19,6 +19,10 @@ See what's beeing run in [.justfile](./.justfile)
 
 After generation can be copy-pasted to [package](https://github.com/hyrious/typst-syntax-highlight)
 
+## Versions
+
+- Tag `pr-69` points to version which was vendored in [typst-syntax-highlight #69](https://github.com/hyrious/typst-syntax-highlight/pull/69)
+
 ## Customize
 
 ### Extend generation

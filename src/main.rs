@@ -108,14 +108,20 @@ fn main() -> Result<()> {
         }
         let extend = extends.get(&extend_key);
 
-        let scope = if let Some(extend) = extend
-            && let Some(rename) = &extend.rename
-        {
-            rename.to_owned()
-        } else if let Some(name_tag) = name_to_match_pat(name) {
+        let scope = if let Some(name_tag) = name_to_match_pat(name) {
             name_tag
         } else {
             scope_to_tag(&syntax.scope.to_string())
+        };
+        let scope = if let Some(extend) = extend
+            && let Some(rename) = &extend.rename
+        {
+            if &scope == rename {
+                eprintln!("{scope}: unused rename {rename:?}");
+            }
+            rename.to_owned()
+        } else {
+            scope
         };
 
         if added_scopes.contains(&scope) {

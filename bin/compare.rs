@@ -60,16 +60,9 @@ fn rename_map_keys<V>(map: HashMap<String, V>) -> HashMap<String, V> {
 fn rename(s: &str) -> String {
     let s = s.trim_start_matches("fenced-");
     let res = match s {
-        "as" => "actionscript",
-        "bat" => "dosbatch",
-        "cs" => "csharp",
-        "dot" => "graphviz",
-        "erl" => "erlang",
         "go" => "golang",
         "json" => "jsonc",
         "jsp" => "jspx",
-        "sh" => "shell-script",
-        "ts" => "typescript",
         _ => s,
     };
     format!("fenced-{res}")

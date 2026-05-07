@@ -1,15 +1,7 @@
 {
   "actionscript": { "scope": "source.actionscript" },
-  "bat": { "rename": "dosbatch" },
-  "cpp": { "scope": "source.c++" },
-  "cs": { "scope": "source.cs", "rename": "csharp" },
-  "dot": { "scope": "source.dot", "rename": "graphviz" },
-  "html": { "scope": "text.html.basic" },
-  "javascript": { "scope": "source.js" },
-  "jsp": { "scope": "text.html.jsp" },
-  "latex": { "scope": "text.tex.latex" },
-  "mm": { "scope": "source.objc++", "rename": "objcpp" },
+  "cs": { "rename": "csharp" },
+  "dot": { "rename": "graphviz" },
   "objective-c": { "rename": "objc" },
-  "re": { "rename": "regexp" },
   "sh": { "rename": "shell-script" }
 }
